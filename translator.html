@@ -13,12 +13,10 @@
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     
-    <!-- Load modular JS files (optional - fallbacks are inline) -->
     <script src="config.js" onerror="console.log('config.js not found, using inline config')"></script>
     <script src="metrics.js" onerror="console.log('metrics.js not found, using inline metrics')"></script>
     <script src="api.js" onerror="console.log('api.js not found, using inline API')"></script>
     <script src="utils.js" onerror="console.log('utils.js not found, using inline utils')"></script>
-    <!-- Optional: Load external synonyms dictionary for METEOR -->
     <script src="synonyms.js" onerror="console.log('Using built-in synonyms dictionary')"></script>
 
     <script type="text/babel">
@@ -163,7 +161,6 @@
             { id: 'claude-sonnet-4', name: 'Claude Sonnet 4', provider: 'anthropic', model: 'claude-sonnet-4-20250514', supportsPrompts: true, cost: 'medium' },
 
             
-            // OpenAI GPT (current)
             { id: 'gpt-4o', name: 'GPT-4o', provider: 'openai', model: 'gpt-4o', supportsPrompts: true, cost: 'medium' },
             { id: 'gpt-4o-mini', name: 'GPT-4o Mini', provider: 'openai', model: 'gpt-4o-mini', supportsPrompts: true, cost: 'low' },
             // OpenAI GPT Legacy (older models for comparison)
@@ -174,7 +171,6 @@
             // DeepSeek
             { id: 'deepseek-chat', name: 'DeepSeek Chat', provider: 'deepseek', model: 'deepseek-chat', supportsPrompts: true, cost: 'very-low' },
             
-            // Non-LLM API
             { id: 'deepl', name: 'DeepL', provider: 'deepl', model: 'deepl', supportsPrompts: false, cost: 'low' },
             { id: 'google', name: 'Google Translate', provider: 'google', model: 'google-translate', supportsPrompts: false, cost: 'low' },
             
@@ -343,7 +339,7 @@
             // DeepSeek
             'deepseek-chat': { input: 0.14, output: 0.28 },
             
-            // Fixed cost services (price per 1M characters)
+            // Cost services (price per 1M characters)
             'deepl': { input: 0, output: 0, fixedCostPerMChar: 20 },
             'google-translate': { input: 0, output: 0, fixedCostPerMChar: 20 },
             
@@ -383,7 +379,6 @@
               return 0;
             }
             
-            // Fixed cost model (DeepL, Google) - charge per character (input only)
             if (pricing.fixedCostPerMChar) {
               const charCount = inputText?.length || 0;
               const costInDollars = (charCount / 1000000) * pricing.fixedCostPerMChar;
@@ -1787,7 +1782,6 @@
 
           // ==================== PYTHON BACKEND FOR NEURAL METRICS ====================
           
-          // Call Python backend for BERTScore
           const calculateBERTScore = async (reference, candidate, lang = 'en') => {
             try {
               const response = await fetch(`${pythonBackendUrl}/bertscore`, {
